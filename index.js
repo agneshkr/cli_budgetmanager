@@ -1,9 +1,19 @@
 const inquirer = require('inquirer');
 const questions = require('./questions.js')
 
+enterExpense=true;
+
 console.log("Welcome to your Budget Manager ");
-inquirer
-    .prompt(questions)
-    .then((answer)=> console.log("hi"))
-    .catch((e)=>console.log(`error : ${e}`))
-    
+while(enterExpense)
+{
+    enterExpense=false;
+    inquirer
+        .prompt(questions)
+        .then((answer)=> {
+            if(answer.continue){
+                this.enterExpense=true
+            }
+        })
+        .catch((e)=>console.log(`error : ${e}`))
+    console.log(this.enterExpense)
+}   

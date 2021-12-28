@@ -1,4 +1,5 @@
 const { time } = require("console");
+const pattern = require("./commonpatterns.js")
 
 questions =[
     {
@@ -6,8 +7,7 @@ questions =[
         type:'input',
         message:'what is the expense? (format :<item> <price>)\n',
         validate: (response)=>{
-            expense_pattern=/[a-z]+\s[0-9]+/
-            if(response.search(expense_pattern)){
+            if(response.search(pattern.expense_pattern)){
                 return "Invalid format";}
             else    
                 return true;   
@@ -19,8 +19,7 @@ questions =[
         default:"12/12/1998",
         message:'when was the expense made?(format :dd/mm/yy)\n',
         validate: (response)=>{
-            date_pattern = /[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2}/
-            if(response.search(date_pattern))
+            if(response.search(pattern.date_pattern))
                 return "Invalid format";
             else
                 return true;
@@ -32,8 +31,7 @@ questions =[
         default:'NA',
         message:'time ? (format <time><pm/am> Eg: 12pm)\n',
         validate: (response)=>{
-            time_pattern = /(?:1[0-2]|[0-9])\s*(?:pm|am)/
-            if(response.search(time_pattern) )//|| response.search(/NA/))
+            if(response.search(pattern.time_pattern) )//|| response.search(/NA/))
                 return "Invalid time format";
             else
                 return true;
@@ -60,6 +58,20 @@ questions =[
         validate: (response)=>{
             return true;
         }
+    },
+    {
+        name:'save',
+        type:'confirm',
+        default:true,
+        message:"Do you want to save the above expense?",
+
+    },
+    {
+        name:'continue',
+        type:'confirm',
+        default:true,
+        message:"Do you want to add another expense?",
+
     },
 
 ]
