@@ -1,7 +1,10 @@
-const { time } = require("console");
-const pattern = require("./commonpatterns.js")
+//const { time } = require("console");
+//const pattern = require("./commonpatterns.js")
+import time from 'console';
+import pattern from "./commonpatterns.js";
+import FormatedDates from "./utils/date.js"
 
-questions =[
+let questions =[
     {
         name:'expense',
         type:'input',
@@ -11,19 +14,21 @@ questions =[
                 return "Invalid format";}
             else    
                 return true;   
-        }
+        },
+        prefix:"1. "
     },
     {
         name:'date',
         type:'input',
-        default:"12/12/1998",
+        default: FormatedDates.todaysDate(),
         message:'when was the expense made?(format :dd/mm/yy)\n',
         validate: (response)=>{
             if(response.search(pattern.date_pattern))
                 return "Invalid format";
             else
                 return true;
-        }
+        },
+        prefix:"2. "
     },
     {
         name:'time',
@@ -35,19 +40,24 @@ questions =[
                 return "Invalid time format";
             else
                 return true;
-        }
+        },
+        prefix:"3. "
     },
     {
         name:'category',
         type:'checkbox',
         default:'12:02:1998',
         message:'category?(Select from the list)\n',
-        choices:['food','petrol','rent'],
+        choices: findPossibleCategories,
         validate: (response)=>{
             if(response == "t")
                 return "Buy something else";
             else
                 return true;
+        },
+        prefix:"4.",
+        when:()=>{
+            return true;
         }
     },
     {
@@ -75,4 +85,5 @@ questions =[
     },
 
 ]
-module.exports = questions
+
+export default questions;
