@@ -3,6 +3,7 @@
 import time from 'console';
 import pattern from "./commonpatterns.js";
 import FormatedDates from "./utils/date.js"
+import DBHandler from "./expenseData.js"
 
 let questions =[
     {
@@ -45,19 +46,19 @@ let questions =[
     },
     {
         name:'category',
-        type:'checkbox',
-        default:'12:02:1998',
-        message:'category?(Select from the list)\n',
-        choices: findPossibleCategories,
-        validate: (response)=>{
-            if(response == "t")
-                return "Buy something else";
-            else
-                return true;
-        },
+        type:'input',
+        message:'expense category?\n',
         prefix:"4.",
-        when:()=>{
-            return true;
+        when:async (answers)=>{
+            let expense = answers.expense.split(" ")[0];
+
+            let dbHandler = new DBHandler()            
+            let category = await dbHandler.getCategory(expense);
+            
+            if(category==null)
+                return true
+            else
+                return false;
         }
     },
     {
@@ -67,22 +68,27 @@ let questions =[
         message:'description?\n',
         validate: (response)=>{
             return true;
-        }
+        },
+        prefix:"5. "
+
     },
     {
         name:'save',
         type:'confirm',
         default:true,
         message:"Do you want to save the above expense?",
+        prefix:"6. "
 
     },
+    /*
     {
         name:'continue',
         type:'confirm',
-        default:true,
+        default:false,
         message:"Do you want to add another expense?",
 
     },
+    */
 
 ]
 

@@ -3,7 +3,7 @@
  */
 
 'use strict';
-const inquirer = require('..');
+const inquirer = require('../Inquirer.js/packages/inquirer/lib/inquirer');
 
 inquirer
   .prompt({

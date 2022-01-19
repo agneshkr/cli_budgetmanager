@@ -4,20 +4,23 @@
 import inquirer from 'inquirer'
 import questions from './questions.js'
 import DBHandler from './expenseData.js';
+import debugObject from './debug.js';
 
 let VERSION = 0.1;
 
 let enterExpense=true;
 //let dbHandler = new dbHandler();
 let dbHandler = new DBHandler()
+let debug = debugObject
+let printd = debug.printd
 
 async function BudgetAppConsole(){
+    //await dbHandler.connect()
+    //debug.setDebug("true")
+    //await dbHandler.connect();
+    //debug.printDebugStatus()
     console.log("Welcome to your Budget Manager ");
-    await dbHandler.connect()
-    console.log("handling questions")
-    //while(enterExpense)
-    //{
-        console.log("Entering expense...")
+    while(enterExpense){
         enterExpense=false;
         inquirer
             .prompt(questions)
@@ -28,16 +31,21 @@ async function BudgetAppConsole(){
                 if(answer.save){
                     console.log("Inside answer:"+answer);
                     enterExpense=true
-                    await dbHandler.insert(answer)
+                    //await dbHandler.connect();
+                    await dbHandler.insertExpense(answer);
+                    await dbHandler.insertCategory(answer);
                     //let expense = databaseHandler.getDBHandler();
                     //let randexp =await expense.findOne();
                     //console.log("randexp:"+randexp);
                 }
                 console.log('di;l;');
             })
-            .catch((e)=>console.log(`error : ${e}`))
-        console.log(enterExpense)
-    //}   
+            .catch((e)=>console.log(`error  : ${e}`))
+        
+            //console.log(enterExpense)
+            //await dbHandler.close(); // if not included program won't exit.It will keep waiting to close the connection.
+        
+    }
 }
 
 BudgetAppConsole();
